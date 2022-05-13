@@ -1,23 +1,28 @@
-import logo from './logo.svg';
-import './App.css';
+import { useState } from "react"
+import { useDispatch, useSelector } from "react-redux";
+import { loginAction } from "./actions/authAction";
+import { incrementAction, decrementAction } from "./actions/counterAction";
 
 function App() {
+  const [phone, setPhone] = useState("");
+  const dispatch = useDispatch();
+
+  const isAuth = useSelector(state => state.auth.isAuth);
+  console.log(isAuth.toString());
+
+  const count = useSelector(state => state.counter.count);
+
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+    <div>
+      <h3>Hello world!</h3>
+      <input type="text" value={phone} onChange={(e) => setPhone(e.target.value)} />
+      <button onClick={(e) => dispatch(loginAction(phone))}>Login</button>
+
+      <div>
+        <button onClick={() => dispatch(decrementAction())}>-</button>
+        <span>{ count }</span>
+        <button onClick={() => dispatch(incrementAction())}>+</button>
+      </div>
     </div>
   );
 }
